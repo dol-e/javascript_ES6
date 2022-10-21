@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    // 1. 따옴표 방식
+
+    var name = "윤미라";
+    var text = "안녕하세요? 저는 " + name + "입니다."
+
+    /*
+
+    var 문자 = "윤미
+    
+    라"; // 에러메시지 뜸. 그냥 따옴표는 줄바꿈을 하면 문자열이 깨진다.
+
+    */
+
+
+    // 2. 벡틱 방식
+
+    /*
+    backquote 문자열의 장점
+    1) 엔터키 가능
+    2) 중간중간 변수 넣기 쉬움
+    */
+
+    var 문자 = `윤미
+    
+    라`;
+
+    console.log(문자); // 엔터키를 쳐서 줄바꿈한 것이 그대로 반영된다.
+
+    var name = `윤미라`;
+    var text = `안녕하세요? 저는 ${name}입니다.`
+
+
+    // 3. backquote 문자열 + 함수
+
+    // tagged literal. 함수에 문자열을 붙여서 실행할 수 있다.
+    // 1) 단어 순서를 변경
+    // 2) 단어를 제거
+    // 3) ${변수} 위치를 옮긴다
+
+    // 해체분석기 파라미터 1. ${}를 기준으로 양 옆 문자들을 Array화 해줌.
+    // 해체분석기 파라미터 2. ${변수}를 뜻함
+    // 해체분석기 파라미터 3. 두 번째  ${변수}를 뜻함
+
+    var name1 = `고랭이`;
+    var name2 = `쥐돌이`;
+
+    function 해체분석기(문자들,변수,변수2){
+      console.log(문자들); // 콘솔창에 이런 배열이 나온다. => (3) ['안녕하세요? 저는 ', '와 ', '입니다.', raw: Array(3)]
+      console.log(변수); // 고랭이
+      console.log(변수2); // 쥐돌이
+      console.log(문자들[2] + 문자들[0]); // 단어의 순서를 변경해서 조합 => 입니다.안녕하세요? 저는 
+      console.log(문자들[2] + 변수 + 문자들[0]); // 단어의 순서를 변경해서 조합 => 입니다.고랭이안녕하세요? 저는 
+    }  
+   해체분석기`안녕하세요? 저는 ${name1}와 ${name2}입니다.` 
+    
+  
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

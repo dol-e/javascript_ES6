@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <button id="버튼">버튼이에요</button>
+
+  <script>
+
+    //문제1
+
+    /*
+    var 사람 = {
+      name: '손흥민',
+    }
+
+    사람.sayHi();
+
+    위의 코드처럼 사람.sayHi()라고 작성하면 콘솔창에 '안녕 나는 손흥민' 이라는 글자가 나와야합니다.
+    '손흥민'이라고 이름을 하드코딩해서 출력하기보다는 실제 내 오브젝트에 있는 name에 해당하는 값이 출력되면 참 좋을 것 같군요. 
+
+    Q. sayHi()라는 함수를 어디서 어떻게 만들면 될까요? 
+    */
+
+    var 사람 = {
+      name: '손흥민',
+      sayHi(){
+        console.log("안녕 나는 " + this.name);
+      }
+    }
+    사람.sayHi();
+
+
+    //문제2
+
+    /*
+    var 자료 = { 
+      data : [1,2,3,4,5] 
+    }
+    자료.전부더하기();
+
+    오브젝트 "자료"에 전부더하기() 라는 함수를 하나 만들어서 사용하고 싶습니다.
+    위처럼 자료.전부더하기()라고 쓰면 자료.data 안에 있는 모든 숫자를 더해서 콘솔창에 출력해주어야합니다. 
+    Q. 어떻게 코드를 짜면 될까요? 
+    조건) 위에있는 자료라는 object 중괄호 {} 내에 코드 작성 금지 
+    */
+
+
+    var 자료 = {
+      data : [1,2,3,4,5]
+    }
+    자료.전부더하기 = function(){ 
+      var 합 = 0;
+      console.log(this)
+      this.data.forEach(function(item){
+        합 = 합 + item
+      })
+      console.log(합)
+    }
+    
+    자료.전부더하기();
+
+
+
+    /*
+    문제3
+
+    document.getElementById('버튼').addEventListener('click', function(){
+      console.log(this.innerHTML) // 버튼이에요
+    });
+
+    버튼을 클릭한 뒤 1초 후에 글자가 출력되게 하려면?
+
+    // 화살표함수를 쓰지 않는 방식 (옛날방식)
+
+    document.getElementById('버튼').addEventListener('click', function(e){
+      var 버튼 = this;
+      setTimeout(function(){ // setTimeout() 안에 들어있는 이 콜백함수는 근본없는 일반함수
+        console.log(this) // window
+        console.log(버튼.innerHTML) // window
+      },1000)
+    });
+
+    */
+
+    document.getElementById('버튼').addEventListener('click', function(e){
+      console.log(this) // <button id="버튼">버튼이에요</button>
+      setTimeout(()=>{ 
+        console.log(this) // <button id="버튼">버튼이에요</button> 화살표 함수를 썼기 때문에 위(바깥)에 있는 this랑 똑같다.
+        console.log(this.innerHTML); // 버튼이에요
+      },1000)
+    });
+
+    
+
+  </script>
+  
+</body>
+</html>

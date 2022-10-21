@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script>
+
+  // this 1. 그냥 쓰거나 함수 안에서 쓰면 this는 window를 뜻합니다.  
+
+  console.log(this) // window
+
+  
+
+  function 함수(){
+    console.log(this) // window
+  }
+  함수();
+  /*
+  위에 거랑 이거랑 같다. window{} 안에다 만든 것이다.
+  window:{
+    함수(){
+      console.log(this) // window
+    }
+  }
+  
+  */
+  window.함수();
+
+
+
+  /*
+
+  'use strict';
+
+  console.log(this) // window
+
+  function 함수(){
+    console.log(this) // strict모드에서는 undefined
+  }
+  함수();
+
+  */
+
+
+  // this 2. 오브젝트 내 함수 안에서 쓰면 그 함수를 가지고 있는 오브젝트를 뜻함.
+
+  var object = {
+    data: 'Kim',
+    함수: function(){
+      console.log(this); 
+    }
+  }
+
+  object.함수();
+
+
+  var object2 = {
+    data: {
+      함수: function(){
+        console.log(this); 
+      }
+    }
+  }
+
+  object2.data.함수();
+
+
+  // 오브젝트 안에 함수 넣을 때 신문법 
+  var object2 = {
+    data: {
+      함수(){ 
+        console.log(this); // :function을 빼고 이렇게만 써도 된다. 
+      }
+    }
+  }
+
+  object2.data.함수();
+
+
+  var object3 = {
+    data: {
+      함수: () => {
+        console.log(this);  // 신 문법 Arrow Function  특징: this값을 함수 밖에 있던 거 그대로 씀
+      }
+    }
+  }
+
+  object3.data.함수();
+
+
+  /*
+  결국 1번 설명과 2번 설명은 같은 얘기다. 
+
+  함수나 변수를 전역공간에 만들면 {window}에 보관합니다. 
+
+  {window}는 global object: 전역변수 보관소
+
+  그러므로 this의 뜻은 이것 하나만 외우면 된다: this는 오브젝트 내 함수 안에서 쓰면 그 함수를 가지고 있는 오브젝트를 뜻함.
+
+  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

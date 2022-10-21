@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    //****************** 문제 1 ******************
+
+    var pants=20;
+    var socks=100;
+
+    `바지${pants} 양말${socks}`;
+
+    // 문자 중간에 있는 '양말'과 '바지' 단어의 순서를 바꿔라.
+    // 해체분석기를 이용할 것.
+
+    function 해체분석기(문자들,변수1,변수2){
+      console.log(문자들[1] + 변수1 + 문자들[0] + 변수2)
+    }
+    해체분석기`바지${pants} 양말${socks}`;
+
+
+    //****************** 문제 2 ******************
+
+    var pants=0;
+    var socks=100;
+
+    `바지${pants} 양말${socks}`;
+
+    // pants가 0개면 '바지안팔아요 양말100'이라는 문자로 바꾸는 해체분석기 제작해라.
+
+    function 해체분석기2(문자들,변수1,변수2){
+      if(변수1 == 0){
+        console.log(문자들[0] + `안팔아요` + 변수2);
+      }
+    }
+    해체분석기2`바지${pants} 양말${socks}`;
+
+
+
+
+  </script>
+</body>
+</html>

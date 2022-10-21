@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  
+</head>
+<body>
+
+  <button id="button">버튼</button>
+  <button id="button2">버튼2</button>
+
+  <script>
+    // this 3. 기계 안에서 쓰면 새로 생성되는 오브젝트를 뜻함
+    // 오브젝트 생성기계 (constructor) => 기계 안에서 쓰면 새로 생성되는 오브젝트를 뜻함
+    function 기계(){
+      console.log(this)
+      this.이름 = 'kim' // 여기서 this는 새로 생성되는 오브젝트(instance)
+      console.log(this)
+    }
+    var object = new 기계();
+    console.log(object);
+
+    
+
+    // this 4. 이벤트 리스너 안에서는 e.currentTarget
+
+    document.getElementById("button").addEventListener("click",function(e){
+      console.log(e);
+      console.log(e.currentTarget); // <button id="button">버튼</button> 지금 이벤트가 동작하는 곳
+      console.log(this); // <button id="button">버튼</button>
+    });
+
+
+    // case study 1. 
+    document.getElementById("button2").addEventListener("click",function(e){
+      console.log(this); // <button id="button2">버튼2</button>
+      var array = [1,2,3];
+      array.forEach(function(a){ // <= forEach()안에 들어있는 콜백함수. 콜백함수란? 함수 안에 들어가는 함수
+        console.log(a); // a는 array 배열 안에 있는 각 아이템을 가리킨다
+        console.log(this); // window
+      });
+    });
+
+    // 질문: forEach()안에 들어있는 콜백함수 안에 있는 this는 몇 번 케이스에 해당되는가?
+
+    // 4번 케이스: 이벤트 리스너 안에 있긴 하지만 그 안에 있는 forEach함수 안에 있는 콜백함수이기 때문에 이벤트리스너 안에 있는 4번 케이스라고 볼 수는 없다.
+    // 3번 케이스인 constructor 라고 볼 수도 없다.
+    // 2번 케이스: 오브젝트 내의 메소드에서 쓰면 그 메소드를 가지고 있는 오브젝트
+
+    // 답: 1번 케이스
+    // forEach()안에 들어있는 콜백함수는 어디에 달라붙어 있는게 아니라 엄밀히 말하면 전역함수. 그냥 일반함수다. 1번 케스인 것이다.
+
+
+    // case study 2. 
+
+    var object2 = {
+      이름들: ['김','이','박'],
+      함수: function(){
+        console.log(this); // 함수가 담겨있는 오브젝트가 출력된다. (2번 케이스)
+        object2.이름들.forEach(function(){ // <= forEach()안에 들어있는 콜백함수. 얘도 근본없는 일반함수
+          console.log(this); // window (1번 케이스)
+        })
+      }
+    }
+    object2.함수();
+
+
+
+    // case study 3. 
+
+    var object3 = {
+      이름들: ['김','이','박'],
+      함수: function(){
+        console.log(this); // 함수가 담겨있는 오브젝트가 출력된다. (2번 케이스)
+        object3.이름들.forEach(() => { // arrow function 특징: 내부의 this값을 변화시키지 않음(외부 this값을 그대로 사용)
+          console.log(this); // 위에 있는 this값과 그대로 똑같이 출력된다. 
+        })
+      }
+    }
+    object3.함수();
+
+
+
+
+  </script>
+</body>
+</html>

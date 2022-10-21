@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+    /*
+    
+    var: 재선언 O, 재할당 O, 범위는 Function
+    let: 재선언 X, 재할당 O, 범위는 {}
+    const: 재선언 X, 재할당 X, 범위는 {}
+
+    */
+
+    //**************** 1. 재선언 ****************
+
+    var 이름 = 'Kim';
+    var 이름 = 'Park';
+    //이렇게 var까지 붙여서 바꾸는 것을 재선언이라고 한다.
+
+    // let 나이 = 20;
+    // let 나이 = 30;  
+    //이렇게 하면 오류가 뜬다. let은 재선언이 불가능하다
+
+
+    //**************** 2. 재할당 ****************
+
+    var 이름 = 'Kim';
+    이름 = 'Park';
+    //이것을 재할당이라고 한다.
+
+    let 이름2 = 'Kim';
+    이름2 = 'Park';
+    //let도 재할당이 가능하다.
+
+    // const 이름 = 'Kim';
+    // 이름 = 'Park';
+    //이렇게 하면 오류가 뜬다. const는 재할당이 불가능하다.
+
+    const 사람 = {이름: "kim"}
+    사람.이름 = "Park";
+    //이렇게 하면 괜찮다.
+    //변수 안에 있는 값을 변경한 것이다. 이것은 변수를 재할당한 것이 아니다.
+
+
+    // const 사람 = {이름: "kim"}
+    // 사람 = {이름: "Park"}
+    //이렇게 하면 오류가 뜬다.
+
+
+
+    //수정 불가능한 오브젝트를 만들고 싶다면? => Object.freeze(사람);
+
+    const 남자 = {이름: "kim"}
+    Object.freeze(사람);
+    남자.이름 = "Park";
+    console.log(사람) // 확인해보면 바뀌지 않았다
+
+
+
+    //****************3. 사용범위 ****************
+
+    function 함수(){
+      var 내이름 = 'Kim'; // function 안에서만 존재함
+      console.log(내이름);
+    }
+    함수();
+    // console.log(내이름); // 오류난다. 함수 바깥에는 존재하지 않는 것이다.
+
+    if(true){
+      var 아빠이름 = "Yoon";
+    }
+    console.log(아빠이름); // Yoon
+
+
+    if(true){
+      let 엄마이름 = "Park";
+    }
+    // console.log(엄마이름); // 오류난다. {} 중괄호 바깥에는 존재하지 않는 것이다.
+
+    for(let v = 1; v < 10; v++) { // v는 for(){} 안에서만 존재
+      console.log(v)
+    }
+
+    //const도 let과 마찮가지로 {}중괄호가 범위다
+
+
+    
+  </script>
+  
+</body>
+</html>
