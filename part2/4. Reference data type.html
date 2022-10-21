@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    // 1) Primative data type : 변수에 값이 그대로 저장됨
+    var 변수 = "hello"; 
+
+
+    // 2) reference data type
+    var 어레이 = [1,2,3];
+    var obj = {name: 'kim'}
+    // Array, Object는 변수에 값이 저장이 안됩니다. 변수에 reference가 저장됩니다.
+    // reference란? [1,2,3]이 저쪽에 있다는 화살표이다.
+
+
+    // ***************** Primative data type의 예시 *****************
+
+    var 이름1 = '김';
+    var 이름2 = 이름1;
+    이름1 = '박';
+    console.log(이름1); // 박
+    console.log(이름2); // 김
+
+
+
+    // ***************** reference data type의 예시 1 *****************
+
+    var 이름1 = {name : '김'};
+    var 이름2 = 이름1;
+    이름1.name = '박';
+    console.log(이름1); // {name: '박'}
+    console.log(이름2); // {name: '박'}    <= 이름2는 바꾼 적이 없는데 바뀌었다.(part1에서 Spread Operator_1에서도 언급됐음)
+    
+    /*
+    복사했을 때 object의 값도 같이 복사가 되는 현상이 일어나는 이유
+
+    이름1에는 {name : '김'} 이게 저장되는 게 아닙니다.
+    "{name : '김'}이 저기 있어요" 라는 화살표(reference)가 저장되기 때문이다.
+
+    그래서 Array, Object는 함부로 복사하면 클남.
+
+    그럼 복사하고 싶으면 어떻게? object 복사 기계를 만들어서 쓴다.
+
+    */
+
+
+
+
+    // ***************** reference data type의 예시 2 *****************
+
+    var 이름1 = {name : '김'};
+    var 이름2 = {name : '김'};
+
+    console.log(이름1 == 이름2); // false
+    console.log(이름1 === 이름2); // false
+
+    /*
+    
+    var 이름1   <=   여기에는 {name : '김'}이 저장된 것이 아니라 화살표가 저장된 것이다.
+
+    이름1과 이름 2는 각각 다른 화살표이다. 
+    오브젝트를 새로 만들 때 마다 다른 화살표가 부여된다.
+    각각 다른 데이터를 가르키는 화살표인 것이다.
+
+    */
+
+
+
+
+    // ***************** reference data type의 예시 3 *****************
+
+    var 이름1 = {name : '김'};
+
+    function 변경(obj){
+      console.log(obj); // {name: '김'} 
+      // 여기까지는 이름1의 화살표를 복사해서 obj에 넣은 상태이다. 이름1과 obj는 서로 같은 화살표를 갖게 되며 { name : '김' } 값을 공유합니다.
+
+      console.log(obj == 이름1) // true 
+      // 서로 같은 화살표를 갖으며 같다.
+
+      obj = {name : 'park'} 
+      // obj라는 변수에 새로운 화살표를 재할당을 한 것이다. (이름1 이라는 변수는 전혀 건드리지 않는다)
+      // 파라미터는 변수생성 & 할당과 똑같습니다.
+      // var obj = {name : 'park'} 과 똑같다. 
+
+      console.log(obj == 이름1) // false
+      // obj라는 변수에 새로운 화살표를 재할당했으니 같지 않다.
+
+      console.log(obj); // {name: 'park'}
+    }
+
+
+    변경(이름1); 
+    // 변경(var obj = 이름1) 이것과 똑같다. 즉 이름1 화살표를 복사해서 var obj에 넣은 것이다.
+    // 결국 변경(이름1); 이렇게 쓰는 것은 이름1을 변경()함수에 할당한 것이 아니다. 그냥 이름1 화살표를 복사해서 obj 에 넣은 것이다.  
+
+
+    console.log(이름1); // {name : '김'}  
+    // 오브젝트를 재할당했지만 변경되지 않았다.
+
+
+
+
+
+    // ***************** reference data type의 예시 4 *****************
+
+    var 이름2 = { name : '김' };
+
+    function 변경2(obj){
+      console.log(obj); // {name: '김'} 
+      // 여기까지는 var obj = 이름2; 상태인 것이다. 이름2과 obj는 서로 같은 화살표를 갖게 되며 { name : '김' } 값을 공유합니다.
+
+      console.log(obj == 이름2); // true
+      // 서로 같은 화살표를 갖으며 같다.
+
+      obj.name  = 'park';
+
+      console.log(obj == 이름2); // true
+      // obj.name  = 'park'; 이 방법은 재할당을 한 것이 아니라 데이터를 수정한 것이다.
+
+      console.log(obj); // {name: 'park'}
+      console.log(이름2); // {name: 'park'}
+
+    }
+
+    변경2(이름2);
+    console.log(이름2); // {name: 'park'}
+
+
+
+
+  </script>
+</body>
+</html>

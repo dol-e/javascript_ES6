@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // prototype이란? 유전자와 같다
+    // 상속을 구현할 수 있는 또 하나의 문법 prototype
+    // 기계(constructor)를 만들면 prototype이라는 공간이 자동으로 생겨요
+
+    function 기계(이름){ // 이게 부모와도 같다
+      this.name = 이름; 
+      this.age = 15;
+      this.sayHi = function(){
+        console.log('안녕하세요 ' + this.name + '입니다')
+      }
+    }
+
+    var 학생1 = new 기계(); // 이게 자식과도 같다
+    var 학생2 = new 기계();
+
+    console.log(기계.prototype);
+    // prototype에 값을 추가하면 모든 자식들이 물려받기 가능
+
+    기계.prototype.gender = '남';
+    console.log(학생1.gender); // 남
+
+    // 13분 정도까지 들음
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    // Rest파라미터
+
+    // Rest파라미터는 파라미터 자리에 ...을 붙여서 쓴다.
+    // 그럼 이 자리에 오는 모든 파라미터를 []에 보관해준다.(array 형태로 묶어준다.)
+    function 함수(...rest){ 
+      console.log(rest); // 함수 안에 들어온 파라미터를 전부 담은 array를 출력한다.
+    }
+    함수(1,2,3,4,5,6,7);
+
+
+
+    //***************************************************************************
+    // arguments와 Rest파라미터의 차이점
+
+    // arguments는 모든 파라미터를 []에 담는다.
+    // Rest파라미터는 일부를 뺄 수 있다.
+
+    function 함수2(a,b, ...파라미터){ 
+      console.log(파라미터); // 세 번째 부터 끝까지만 출력이 된다.
+    }
+    함수2(1,2,3,4,5,6,7);
+
+
+
+    //***************************************************************************
+    // Rest파라미터 주의사항
+
+    /*
+    
+    1) 파라미터 자리에서 가장 뒤에 써야 한다.
+    
+    ... rest의 의미는 "여기 뒤에 있는 모든 파라미터" 라는 뜻이다.
+    뒤에 파라미터가 또 오게 되면 에러가 난다.
+
+    function 함수3(...파라미터, a){   // 이렇게 쓰면 에러가 난다.
+      console.log(파라미터);
+    }
+    함수3(1,2,3,4,5,6,7);
+
+
+
+
+    2) 두 번 이상 반복 금지
+
+    function 함수3(...파라미터, ...파라미터2){   // 이렇게 쓰면 에러가 난다.
+      console.log(파라미터);
+    }
+    함수3(1,2,3,4,5,6,7);
+
+
+
+
+
+    3) ...rest 와 ...spread operator 구분하기 
+    - 함수 파라미터 자리에 붙으면 rest
+    - 나머지는 spread operator
+
+    */
+
+    
+
+
+
+  </script>
+</body>
+</html>
