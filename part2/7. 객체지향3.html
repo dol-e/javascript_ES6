@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    /*************************** prototype은 constructor 함수에만 생성된다. *****************************/
+
+    // 일반 object나 array에는 prototype이 없다.
+
+    var arr = [1,2,3];
+    console.log(arr.prototype); // undefined
+
+
+
+
+    /*************************** 부모의 prototype 검사하기 *****************************/
+    function 기계(이름){
+      this.name = 이름; 
+      this.age = 15;
+      this.sayHi = function(){
+        console.log('안녕하세요 ' + this.name + '입니다')
+      }
+    }
+
+    var 학생1 = new 기계();
+
+    // 학생1은 constructor 함수는 아니기 때문에 prototype을 갖고 있지 않지만, 그 부모의 prototype을 검사할 수는 있다.
+    // 부모의 prototype을 검사하고 싶으면 __proto__라는 키워드를 쓴다.
+    console.log(학생1.__proto__); 
+    console.log(기계.prototype); // 학생1.__proto__과 결과가 같다.
+
+
+
+    // 기계.prototype을 콘솔창에서 살펴보면 이것도 __proto__라는 키워드를 갖고 있다는 것을 확인할 수 있다.
+    // 그것은 기계 라는 constructor 함수도 역시 부모를 갖고 있다는 것을 의미한다. 
+    // 기계.prototype의 __proto__를 눌러보면 Object라는 이름의 constructor 라는 것을 확인할 수 있다. 
+    // 기계 라는 constructor 함수도 Object라는 이름의 constructor함수에서 생성된 것이라는 것을 알 수 있다.
+    // =====> 모든 자바스크립트의 함수, 배열, 객체는 결국은 new Object() 이걸로 생성된다. 
+    // =====> 모든 자바스크립트의 함수, 배열, 객체의 조상은 결국 Object이다.
+
+
+
+
+
+    /*************************** __proto__를 이용해서 Object끼리 상속 구현하기 *****************************/
+    //  __proto__를 이용해서 일반 오브젝트에 부모를 강제로 등록할 수 있다. 
+    // 그것을 "__proto__를 이용해서 Object끼리 상속 구현한다"고 한다.
+
+    var 부모 = {name : "Kim"};
+    var 자식 = {};
+    자식.__proto__ = 부모; //  __proto__를 이용해서 Object끼리 상속 구현을 했다. 
+
+    // 정말 됐는지 확인해보자.
+
+    console.log(자식.name); // Kim
+
+    // 실제로 이런 식으로 사용하지는 않지만 이런식으로 __proto__를 이해하고 넘어가면 된다.
+    // __proto__ 보다 ES5문법에 더 좋은 것이 있다.
+
+    console.log(자식.__proto__); 
+    console.log(부모.prototype); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>
