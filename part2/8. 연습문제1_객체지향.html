@@ -8,9 +8,238 @@
 </head>
 <body>
   <script>
-    /*  constructor, prototype 연습문제  */
 
-    /*********************** 문제 0 ***********************/
+    /*********************** constructor, prototype 연습문제  ***************************/
+
+    /************************************* 문제 0 *************************************/
+    /*
+
+    var 학생1 = { name : 'Kim', age : 20 }
+    var 학생2 = { name : 'Park', age : 21 }
+    var 학생3 = { name : 'Lee', age : 22 }
+
+    constructor문법을 사용해서 위의 오브젝트와 똑같은 오브젝트 3개를 한번 뽑아보십시오. 
+
+    + 여기에 학생1.sayHi()라고 사용하면 "안녕 나는 Kim이야" 라는 글자가 콘솔창에 나오도록 sayHi()라는 함수도 constructor 안에 추가해보세요. 
+
+    */
+
+    //답안
+
+    function Student (이름, 나이){
+      this.name = 이름;
+      this.age = 나이;
+      this.sayHi = function () {
+        console.log(`안녕 나는 ${this.name}이야`);
+      }
+    }
+
+    var 학생1 = new Student("Kim", 20)
+    var 학생2 = new Student("Park", 21)
+    var 학생3 = new Student("Lee", 22)
+
+    학생1.sayHi();
+
+
+
+    /************************************* 문제 1 *************************************/
+    /*
+
+    다음 코드의 출력 결과는 무엇일까요?
+
+    function Parent(){
+      this.name = 'Kim';
+    }
+    var a = new Parent();
+
+    a.__proto__.name = 'Park';
+    console.log(a.name)
+
+
+
+    답안
+
+    Kim 이 답이다.
+
+    첫 4줄에 의해서 a = { name : 'Kim' } 이 되고 
+
+    a.__proto__.name = 'Park'; 이건 부모 prototype에 { name : 'Park' } 이걸 추가하라는 뜻입니다.
+
+    그럼 이제 a.name 이라고 사용했을 때 
+
+    내가 직접 가지고 있는 { name : 'Kim' } 이걸 우선 출력해줍니다.
+
+    */
+
+    
+
+    /************************************* 문제 2 *************************************/
+    /*
+
+    function Student(이름, 나이){
+      this.name = 이름;
+      this.age = 나이;
+    }
+
+    Student.prototype.sayHi = () => {
+        console.log('안녕 나는 ' + this.name + '이야');
+      }
+    var 학생1 = new Student('Kim', 20);
+
+    학생1.sayHi(); //왜 이 코드가 제대로 안나오죠?
+
+    */
+
+
+    //답안
+
+    // 결론부터 말하자면 arrow function은 그냥 일반 function 대체품이아닙니다.
+    // arrow function은 this를 바깥에 있는 this를 그대로 사용하고 싶을 때 쓰는 함수라고 했었습니다. 
+    // 암튼 그런데 sayHi() 함수를 만들 때 arrow function을 사용해서
+    // 내부에 있던 this라는 값이 이상해진 것이었습니다. 
+
+    function Student2(이름, 나이){
+      this.name = 이름;
+      this.age = 나이;
+    }
+
+    Student2.prototype.sayHi = () => {
+        console.log(this); //window
+        console.log(this.name); //undefined
+        console.log('안녕 나는 ' + this.name + '이야');
+      }
+    var 사람 = new Student2('Kim', 20);
+    사람.sayHi();
+
+    // 위와 같이 화살표 함수 안에서 this는 wibdow이고, this.name은 undefined이다.
+    // 화살표함수를 function(){} 이런 형태로 바꿔주면 해결됨.
+
+
+
+
+
+    /************************************* 문제 3 *************************************/
+    /*
+
+    모든 array에 붙일 수 있는, array 내에 있는 3이라는 값을 제거해주는 유용한 함수를 하나 만들고 싶습니다. 
+
+    ===============================
+    var arr = [1,2,3];
+    arr.remove3();
+
+    console.log(arr); //[1,2]
+    ===============================
+
+    이렇게 array뒤에 붙이기만 하면 array 내의 3이라는 모든 숫자 자료들이 삭제됩니다. 
+
+    멋있게 이름은 remove3() 이라고 하겠습니다. 
+
+    remove3()함수는 어떻게, 어디에 만들어야 모든 array에 쓸 수 있을까요?
+    
+    */
+
+    //답안
+
+
+
+
+    //////////////// 그에 앞서서 함수를 만드는 방법에 대해 한 번 복습하기//////////////// 
+
+    // 오브젝트 안에 아래와 같은 방법으로 함수를 만들 수 있다.
+    var obj = {
+      함수1: function(){ // 방법 1
+        console.log("함수1111");
+      },
+      함수2(){ // 방법 2
+        console.log("함수2222");
+      }
+    }
+
+    obj.함수1();
+    obj.함수2();
+
+
+    obj.함수3 = function(){ // 방법 3
+      console.log("함수3333");
+    }
+    obj.함수3();
+
+
+    // 그런데 아래와 같은 전역함수도 결국에는 window라는 객체 안에 들어있는 것과 같다.
+    function 함수4() {
+      console.log("함수4444");
+    }
+    함수4();
+
+    // 위에 것은 결국 아래와 같다.. 
+    window:{  
+      function 함수5(){
+        console.log("함수5555");
+      }
+    }
+    함수5();
+
+    // 전역함수도 이렇게 쓸 수 있다.
+
+    window.함수6 = function(){  //window객체 안의 함수 (전역함수)
+      console.log("함수6666");
+    }
+    window.함수6();
+
+
+    //////////////////////////// 함수를 만드는 방법 끝  ///////////////////////////////////
+
+
+    // Array의 prototype에 remove3이라는 함수를 추가해준다.
+
+    Array.prototype.remove3 = function(){
+      console.log(this) // 현재 remove3이라는 함수를 작동시키는 object (여기서는 Array) 
+      for (var i = 0; i < this.length; i++) {
+        if ( this[i] === 3 ) { // i번째 아이템이 3이라면
+          this.splice(i,1); // i번째 인덱스 위치에서 1개의 아이템을 지운다.
+        }
+      }
+    }
+
+    var arr = [1,2,3,4];
+    arr.remove3();
+    console.log(arr); //[1,2,4]
+
+    // arr는 Array constructor 함수로 생성해 낸 오브젝트이므로, (배열도 결국에는 오브젝트임.) 상속받아서 부모로부터 remove3 함수를 가져다 쓸 수 있게 된 것이다.
+
+
+    /*
+
+    var arr = [1,2,3,4]; 
+    var arr = new Array(1,2,3,4); // 모든 배열들은 실제로는 이렇게 만든다.
+
+    function Array(){ // 모든 배열들은 이 Array constructor 함수가 생성한 것이다. 
+    }
+
+    // 따라서 Array constructor 함수가 생성한 모든 배열들은 부모의 속성을 가져다 쓸 수 있다. 
+    // 그래서 Array.prototype에 remove3 라는 함수를 만든 것이다.
+
+    */
+
+
+    /////////////////////////// 원하는 숫자를 넣으면 제거해주는 함수 ///////////////////////////////
+
+    Array.prototype.removeNum = function(num){
+      console.log(this) // 현재 remove3이라는 함수를 작동시키는 object (여기서는 Array) 
+      for (var i = 0; i < this.length; i++) {
+        if ( this[i] === num ) { // i번째 아이템이 3이라면
+          this.splice(i,1); // i번째 인덱스 위치에서 1개의 아이템을 지운다.
+        }
+      }
+    }
+
+    var arr = [1,2,3,4];
+    arr.removeNum(1);
+    console.log(arr)
+
+
+
+
   </script>
 </body>
 </html>
