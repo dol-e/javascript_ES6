@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 지금까지 prototype으로 상속하는 것은 예~전에 쓰던 아주 오래된 방식이다.
+    // ES5에서는 상속기능을 구현하기 위해 create라는 것을 쓴다.
+    // Object.create(프로토타입object)
+
+    var 부모 = {name : "Kim", age : 50};
+    var 자식 = Object.create(부모); // prototype을 부모로 해주세요.
+    
+    console.log(자식); // {} 이렇게 빈 중괄호가 나온다. 아무것도 넣어준 것이 없기에..
+    console.log(자식.name); // kim. 자식이 prototype을 부모로 두고 있기 때문에 상속을 받아서 name을 가져올 수 있다.
+    console.log(자식.age); // 50
+    자식.age = 20;
+    console.log(자식.age); // 20. 자식이 age를 직접 갖고 있으므로 바로 자식에게서 age의 값을 가져온 것이다.
+
+    var 손자 = Object.create(자식); // prototype을 자식으로 해주세요.
+    console.log(손자); // {}
+    console.log(손자.name);  // kim
+    console.log(손자.age); // 20.
+
+    
+    // 위의 방식은 constructor를 만든 것이 아니다.
+    // 그냥 prototype을 무엇으로 해 달라고 상속기능을 구현하는 함수인 것..
+
+
+
+  </script>
+</body>
+</html>
