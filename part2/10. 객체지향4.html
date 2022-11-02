@@ -10,8 +10,8 @@
   <script>
     // constructor를 만드는 신문법
     class 부모 { 
-      constructor(){
-        this.name = 'Kim';
+      constructor(text){
+        this.name = text;
         // constructor에 함수 넣는 방법 1
         // 여기에 함수를 쓰면 자식오브젝트도 이 함수를 직접 가지게 된다. 
         // this.sayHi = function(){ console.log('hello') } // constructor에 함수 넣는 방법 1
@@ -24,9 +24,29 @@
       }
     }
 
-    var 자식 = new 부모();
+    var 자식 = new 부모('Kim');
     console.log(자식); // sayHi() 함수가 없다. 
-    console.log(부모.prototype); // sayHi() 함수가 있다. 
+
+
+    ////////// 아래 3줄의 출력 결과는 모두 같다.///////////////
+    // 모두 부모의 prototype을 출력하며, sayHi() 함수를 가지고 있다.
+    console.log(부모.prototype);
+    console.log(자식.__proto__);
+    console.log(Object.getPrototypeOf(자식)); // 함수의 이름으로 한눈에 이해되기 때문에 이 방법이 더 선호된다.
+
+
+
+    부모.prototype.sayGoodBye = function(){ // 부모의 prototype에 함수를 추가했다.
+      console.log('Good Bye!')
+    }
+
+
+
+
+
+
+
+
 
   </script>
 </body>
