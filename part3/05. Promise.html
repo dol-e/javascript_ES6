@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ES6 Promise</title>
+</head>
+<body>
+  <script>
+
+    /*
+    Promise
+
+    - 콜백함수와 비슷하지만, 콜백함수보다는 기능이 많다.
+    - 연달아서 실행할 때 콜백함수처럼 코드가 옆으로 길어지지 않는다.
+    - 조금 더 직관적으로 보인다.
+
+    */
+
+    // Promise()는 성공/실패를 판정하는 기계
+    var 프로미스 = new Promise(function(resolve, reject){
+      resolve(); // resolve가 실행되면 성공한 것이다.
+      // reject(); // reject가 실행되면 실패한 것이다.
+    });
+
+    /*
+    - Promise()는 성공/실패를 판정하는 기계
+    - Promise()는 두 개의 파라미터를 꼭 가지고 있어야 한다.
+    - 보통 관습적으로 resolve, reject 이렇게 사용한다.
+    */
+    
+
+
+    프로미스.then(function(){
+      // 프로미스가 성공일 경우 실행할 코드
+    }).then(function(){
+      // 프로미스가 성공일 경우 실행할 코드
+    });
+
+
+
+    // catch
+    프로미스.catch(function(){
+      // 프로미스가 실패할 경우에 실행할 코드
+    });
+
+
+    //finally
+    프로미스.finally(function(){
+      // 성공이든 실패든 뭔가 일어났을 때 실행해주세요.
+    });
+
+
+
+
+    /************************ 예제 1 ***********************/ 
+
+    var 프로미스 = new Promise(function(resolve, reject){
+      var 어려운연산 = 1 + 1;
+      resolve(어려운연산); // 1 + 1 연산이 끝나면 성공 판정을 내려주세요.
+      // resolve 함수 안에 파라미터를 넣으면 성공시 then 함수 안으로 파라미터 데이터가 전달된다.
+
+      // reject(); // 1 + 1 연산이 끝나면 실패 판정을 내려주세요.
+    });
+
+    프로미스.then(function(결과){
+      console.log("결과값: "+ 결과 + ", 성공했어요!");
+    }).catch(function(){
+      console.log("실패했어요ㅠㅠ");
+    })
+
+    /*
+
+    Promise는 어려운 연산이 끝나고 특정 코드를 실행할 때 사용한다.
+    (위의 예제처럼 하찮은 연산 말고 어렵고 복잡한 연산 시 사용한다.)
+
+    위의 코드를 콜백함수를 사용한다면 조금 더 쉬울 수 있다.
+    하지만 Promise를 쓰면 장점이 있는데..
+
+    1. 콜백 대신 예쁜 코드
+    2. 성공/실패의 경우에 맞춰 각각 다른 코드를 실행 가능
+    
+    */
+
+
+
+
+    /************************ 예제 2 ***********************/ 
+
+    var 프로미스222 = new Promise(function(resolve, reject){
+      setTimeout(function(){
+        resolve(); // 1초 후에 성공을 판정한다.
+      }, 1000);
+    });
+
+    프로미스222.then(function(){
+      console.log("성공했어요!");
+    }).catch(function(){
+      console.log("실패했어요ㅠㅠ");
+    })
+
+    console.log(프로미스222); // Promise 안에 1초 후에 성공을 판정하라고 되어있는데, 그렇기 때문에 setTimeout보다 이 코드가 먼저 실행이 되고, 아직 판정하기 전이라서 <pending>이라고 뜬다. 
+
+    setTimeout(function(){
+      console.log(프로미스222); // 성공하면 <fulfilled>
+    }, 2000);
+
+
+    /*
+
+    Promise는 자바스크립트 객체이고, 콘솔창에 찍어보면 아래의 세 가지 상태를 반환한다.
+
+    Promise의 세 가지 상태
+    1.성공하면 <resolved> / <fulfilled>
+    2. 판정 대기중이면 <pending>
+    3. 실패하면 <rejected>
+
+    */
+
+
+
+    /************************ Promise에 대한 오해 ***********************/
+
+    /*
+
+    Promise는 비동기적 처리를 가능하게 해 주는 마법의 문법이 아니다. 
+    Promise 안에서 비동기 처리를 담당하는 코드(setTimeout, addEventListener, ajax와 같은 함수들)를 쓰면 비동기 처리가 되는 것이고,
+    비동기처리를 돕는 함수들을 쓰지 않으면 비동기적 처리가 아니다.
+
+    Promise 안에 10초 걸리는 어떤 복잡한 연산을 넣으면 웹페이지가 10초간 멈춘다. => Promise자체가 비동기적 처리는 아니라는 말
+
+    Promise는 콜백함수 디자인의 대체품일 뿐. 
+    어떤 코딩 스타일, 함수 디자인 패턴 이라고 보면 된다.
+
+    */
+
+
+    /************************ Promise가 쓰인 곳들 ***********************/
+
+    /*
+    Promise를 이용한 라이브러리들이 있다.
+
+    - jQuery.ajax()에서 promise와 유사한 패턴으로 만들어진 것들이 있다.
+
+      $.ajax().done(function(){
+
+      }).fail(function(
+
+      ){});
+
+
+    - fetch()
+    fetch()는 항상 Promise를 리턴한다.
+    fetch()는 항상 Promise를 리턴하기 때문에 아래와 같이 쓸 수 있다.
+
+      fetch().then(function(){
+
+      }).catch(function(){
+
+      });
+
+    */
+
+
+    
+  </script>
+</body>
+</html>
