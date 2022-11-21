@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매우 짧게 알아보는 Map, Set 자료형</title>
+</head>
+<body>
+  <script>
+    /***************************************** Map 자료형 *****************************************/
+
+    /*
+    - Object자료형처럼 key, value를 저장한다. 
+    - Map자료형은 자료 간의 연관성을 표현하기 위해 사용한다.
+    - Object자료형은 key에 문자만 가능했지만, Map자료형은 모두 가능하다. (key에 숫자,배열 등도 가능)
+    */
+
+    var person = new Map(); // Map자료형을 생성
+    person.set('name', 'Kim'); // set()이라는 키워드로 key와 value를 저장
+    person.set('age', 20); 
+    person.set(100, "숫자"); 
+    person.set([1,2,3], "배열"); 
+
+    console.log(person);
+    // 그런데 이렇게 콘솔창에서 확인해보면 오브젝트와 달리 key와 value가 화살표로 연결되어 있다.
+
+
+
+    /********************* Map에서 자료 다루기 ********************/
+
+    person.get('name'); // 자료 출력하기
+    person.delete('age'); // 자료 삭제하기
+    person.size; // 자료의 갯수 구하기
+
+
+    /********************* 반복문으로 Map에서 자료 꺼내기 ********************/
+
+    // person.keys() : person객체에 있는 key값들이 출력된다.
+    // 콘솔창에서 확인해보면 iterable한 자료형임을 확인할 수 있다. 그러므로 for of 반복문 사용 가능.
+    console.log( person.keys() );
+
+    // person.values() : person객체에 있는 value값들이 출력된다.
+    console.log( person.values() );
+
+    for(var key of person.keys()){
+      console.log(key);
+    }
+
+
+    /********************* Map 자료형에 직접 자료 넣기 ********************/
+
+    var person2 = new Map([
+      ['name', 'Park'],
+      ['age', 30],
+      [[2,3,4,5], "배열"]
+    ]);
+
+    console.log(person2);
+
+
+
+
+
+
+
+
+    /***************************************** Set 자료형 *****************************************/
+
+    /*
+    < Set 자료형 >
+    - 중복자료를 허용하지 않는 Array 비슷한 것
+    */
+
+    var 출석부 = ['John', 'Tom', 'Andy', 'Tom']; // 실수로 'Tom'을 중복으로 넣었다
+
+    var 출석부2 = new Set(['John', 'Tom', 'Andy', 'Tom']); // Set자료형을 생성
+
+    console.log(출석부2); // 콘솔창에서 확인해보면 중괄호{} 안에 들어있고, 중복된 'Tom'이 제거되었다.
+
+
+    /********************* Set자료형에서 자료 다루기 ********************/
+
+    출석부2.add('Sally'); // 자료 추가하기
+    출석부2.delete('Andy'); // 자료 제거하기
+    출석부2.has('Sally'); // 자료 있는지 여부 확인하기
+    출석부2.size; // 자료의 갯수 출력
+
+    console.log(출석부2);
+
+
+
+
+    /********************* Set자료형 <-> Array 자료형 ********************/
+
+    /* 문제: Array의 중복자료를 제거하고 싶으면? */
+
+    var 명단 = ['개똥이', '돌쇠', '똘이', '돌쇠']; // 실수로 '돌쇠'을 중복으로 넣었다
+
+    var 명단2 = new Set(명단); // 이렇게 해 주면 Array 자료형을 Set자료형으로 만들 수 있다.
+
+    console.log(명단2); // 그런데 Set자료형은 중괄호 {}로 감싸져 있기 때문에 다시 Array로 바꿀 필요가 있다.
+
+    명단 = [...명단2]; // Spread연산자로 []를 없애는 깊은 복사를 했음
+
+    console.log(명단);
+
+
+
+
+    /********************* Set자료형에 반복문 돌리기 ********************/
+
+    /*
+    사실 set자료형에 직접 반복문을 돌릴 수 있으면 위와 같이
+    set자료형을 다시 Array로 변환할 필요가 없다.
+    */
+
+    console.log( 명단2[Symbol.iterator]() )
+    // 콘솔창에서 확인해보니 Set자료형은 iterable한 자료형임을 확인할 수 있다. 그러므로 for of 반복문 사용 가능.
+
+
+    for(item of 명단2) {
+      console.log(item);
+    }
+
+    명단2.forEach(function(item){
+      console.log(item);
+    })
+
+
+
+
+
+
+  </script>
+</body>
+</html>

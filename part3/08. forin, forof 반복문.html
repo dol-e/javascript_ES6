@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>for in / for of 반복문과 enumerable, iterable 속성</title>
+</head>
+<body>
+  <script>
+
+    /************************************ < for in 반복문 > ************************************/
+
+    /*
+    < for in 반복문 >
+    Object에 있던 값을 전부 하나씩 꺼내서 사용할 때 사용한다.
+    */
+
+    var 오브젝트 = {name : "Kim", age : 30};
+
+    for (var key in 오브젝트) { // 위의 오브젝트에 자료가 2개가 있으므로 2번 반복된다.
+      console.log(오브젝트[key]);
+    }
+
+    /********************* < for in 반복문의 특징 1 > *********************/
+
+    /*
+
+    < for in 반복문의 특징 1 >
+    1. enumerable한 데이터만 반복해준다.
+
+    - enumerable하다는 것이 무슨 의미일까?
+    => 셀 수 있다는 의미다. (반복문에서 "Kim"을 출력해 줄 수 있다.)
+
+    - enumerable한지 확인하려면?
+    => 우선 자바스크립트에서 오브젝트의 값에는 "Kim" 말고도 숨겨진 정보들이 있다.
+    아래와 같이 써 주면 오브젝트 안의 name이라는 키 값의 숨겨진 정보를 출력해준다.
+    Object.getOwnPropertyDescriptor(오브젝트,'name'); 
+
+    */
+
+
+    var 숨겨진정보 = Object.getOwnPropertyDescriptor(오브젝트,'name'); // name이라는 키 값의 숨겨진 정보를 출력
+    console.log(숨겨진정보);
+
+
+
+
+    /********************* < for in 반복문의 특징 2 > *********************/
+
+    /*
+
+    < for in 반복문의 특징 2 >
+    2. 부모의 prototype도 반복해준다.
+
+    - 사실상 쓸데없는 기능이다.
+    - for in 반복문을 쓸 때 부모의 prototype도 역시 반복해준다는 특징을 알아둘 필요가 있다.
+    - 부모의 prototype가 아니라 오브젝트가 직접 가진 데이터만 반복해주려면. 
+    - hasOwnProperty(element) 이라는 함수를 쓴다. (element는 임의로 지은 이름)
+
+    */
+
+    class 부모 {
+      constructor(age){
+        this.age = age;
+      }
+    }
+
+    부모.prototype.name = "Park";
+
+    var 오브젝트2 = new 부모("60");
+
+    for (var key in 오브젝트2) { 
+      console.log(오브젝트2[key]); // 60과 Park이 콘솔에 차례로 찍힌다.
+    }
+
+    
+    for (var key in 오브젝트2) { 
+      if( 오브젝트2.hasOwnProperty(key) ) { // 오브젝트가 직접 가진 데이터만 출력
+        console.log(오브젝트2[key]); // 60만 콘솔에 찍힌다.
+      }
+    }
+
+
+
+    /********************* < for in 반복문의 특징 3 > *********************/
+
+    /*
+
+    < for in 반복문의 특징 3 >
+    3. Object 자료형에만 사용한다.
+
+    - 그럼 일반 Array에는 무엇을 쓰나요?
+    => 일반적인 for문이나 forEach()를 사용한다.
+
+    */
+
+
+
+    /*************************************** < for of 반복문 > ***************************************/
+
+    /*
+
+    for of 반복문
+    - Array, 문자, arguments, NodeList, Map, Set에 주로 쓰인다.
+    
+    */
+
+    var 어레이 = [2, 3, 4, 5];
+
+    for (var 자료 of 어레이) {
+      console.log(자료);
+    }
+
+    for (var 자료 of "아무단어") { // string로 반복시킬 수 있다.
+      console.log(자료);
+    }
+
+
+
+    /********************* < for of 반복문의 특징 > *********************/
+
+    /*
+    1. iterable한 자료형에만 사용 가능
+
+    - iterable하다는 것은 무슨 의미일까?
+    => 어레이[Symbol.iterator](); 이렇게 콘솔창에 쳤을 때 뭔가 나온다면 iterable한 자료형이다.
+    => 콘솔창에 쳤을 때 나오는 이게 무엇이냐? 내부 데이터 출력을 도와주는 함수 같은 것이다. 그 정도만 알고 넘어가면 된다.
+
+
+
+    - NodeList는 무엇인가?
+
+    document.getElementsByClassName();
+    document.querySelectorAll();
+    이렇게 쓰면 여러 개의 자료가 나온다. 
+    대괄호 [] 로 묶인 자료가 나온다.
+    이게 정확히 말하면 Array는 아니고 NodeList이다.
+    이런 NodeList도 [Symbol.iterator]()를 가지고 있다.
+    
+    */
+
+    console.log( 어레이[Symbol.iterator]() );
+    console.log( "아무글자"[Symbol.iterator]() );
+
+
+
+    /*************************************** 예제 1 ***************************************/
+
+    /*
+    for of 반복문을 이용해서 2단부터 9단까지의 구구단을 콘솔창에 한번 출력해보십시오.
+    */
+
+    let 데이터 = [1,2,3,4,5,6,7,8,9];
+
+    for(let i = 2; i <= 데이터.length; i++) {
+      console.log(`${i}단 출력`);
+
+      for(let num of 데이터) {
+        console.log( `${i} x ${num} = ${i * num}` );
+      }
+      
+    }
+
+
+
+    /*************************************** 예제 2 ***************************************/
+
+    var products = [
+      {
+        name1 : 'chair',
+        price1 : 7000,
+      },
+      {
+        name2 : 'sofa',
+        price : 5000,
+      },
+      {
+        name1 : 'desk',
+        price3 : 9000,
+      },
+    ]; 
+
+
+    /*
+
+    Q. 어떤 놈이 key값 마지막 부분에 오타를 섞어놨습니다.
+
+    key값 마지막에 한자릿수 숫자가 섞여있으면 그걸 다 제거하고 싶습니다. 
+
+    어떻게 코드를 짜면 될까요? 
+
+    마지막 글자가 숫자인지 판단하는 방법도 잘 찾아봐야겠군요.
+
+    
+
+    (예시)
+
+    array안의 object안에 들어있는 
+
+    name1 : 'chair' 이게
+
+    name : 'chair' 이렇게 숫자만 깔끔하게 없어져야합니다.
+
+
+    (힌트)
+    isNaN(parseInt('123')) // false
+    isNaN(parseInt('가나다')) // true;
+
+    */
+
+    let newValue;
+    let newKey;
+
+    for (let item of products) {
+      for (let key in item) {
+        //마지막글자를 숫자로변환했을 때 isNaN이 false라면 (숫자면)
+        if (isNaN(parseInt(key.slice(-1))) == false ) {
+          newValue = item[key];
+          newKey = key.slice(0, -1); 
+          item[newKey] = newValue;
+          delete item[key]; 
+        }
+      }
+    }
+
+    console.log(products)
+
+    /*
+
+    1. isNaN()
+    - 매개변수가 숫자인지 검사하는 함수(NaN은 Not a Number)
+    - 매개변수가 숫자가 아니면 true, 숫자이면 false를 반환
+
+    2. slice(-1) : 배열에서 마지막에서 첫 번째 엘리먼트를 추출한다. 
+
+    3. newValue = item[key]
+    item[key]는 오브젝트 안에 있는 값인데, 그 값을 newValue라는 새로운 변수에 할당한다.
+    
+    4. slice(0, -1) : 0번째 인덱스부터 뒤에서 1번째 인덱스를 제외하고 추출 
+    (즉 1번째 인덱스부터 뒤에서 2번째 인덱스까지 포함해서 추출)
+
+    5. newKey = key.slice(0, -1)
+    key에서 숫자부분을 제외하고 추출해서 newKey라는 새로운 변수에 할당한다.
+
+    6. item[newKey] = newValue;
+    오브젝트에 새로운 키를 넣어서 거기에 newValue를 할당한다.
+
+    7. delete item[key] : 기존의 키를 제거
+    
+    delete : 객체의 속성을 제거한다.
+    delete object.property
+    delete object['property']
+
+    */
+
+
+
+    /*************************************** 예제 2 ***************************************/
+    // 예제 2번 문제 다시 풀어봤다. 
+
+    var clothes = [
+      {
+        name1 : 'skirt',
+        price1 : 7000,
+      },
+      {
+        name2 : 'pants',
+        price : 5000,
+      },
+      {
+        name3 : 'jacket',
+        price3 : 9000,
+      },
+    ]; 
+
+    let new_value;
+    let new_key;
+
+    for (let item of clothes) {
+      for (let key in item) {
+
+        console.log(key.slice(-1));
+        console.log( isNaN(parseInt(key.slice(-1))) );
+
+        if (isNaN(parseInt(key.slice(-1))) == false ) {
+
+          console.log(item[key]);
+          console.log(key.slice(0, -1));
+
+          new_value = item[key];
+          new_key = key.slice(0, -1); 
+          item[new_key] = new_value;
+
+          console.log(item)
+
+          delete item[key];
+
+          console.log(item)
+
+        }                    
+      }
+    }
+
+    console.log(clothes)
+    
+
+
+
+    
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

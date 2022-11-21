@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symbol 자료형</title>
+</head>
+<body>
+  <script>
+    /*
+
+    <Symbol 자료형>
+
+    대문자로 시작해서 
+    Symbol("설명 아무거나")
+    이렇게 쓰면 Symbol 자료형을 하나 만든 것이다.
+
+
+    < Symbol의 용도 > 
+    1. Object 자료형의 비밀스러운 key값
+    - 원래 Object의 key값은 문자만 가능했는데, ES6부터는 key에 Symbol을 넣을 수 있게 되었다.
+
+    2. import해온 파일 / 라이브러리를 쓸 때
+    거기에 있던 Object에 자로를 추가하고 싶다면
+
+    */
+
+    /********************* Symbol 자료형 ********************/
+  
+    var 심볼 = Symbol("설명 아무거나");
+
+
+
+    /********************* 오브젝트에 Symbol 넣기 ********************/  
+
+    // person.weight = 100; 이렇게 쓰면 모두가 볼 수 있게 된다. 이 자료값을 비밀스럽게 숨기고 싶다면?
+    // Symbol로 만들어서 변수에 저장한 후 person 오브젝트에 넣어주면 된다.
+
+    var height = Symbol("내 시크릿 정보 1");
+    var weight = Symbol("내 시크릿 정보 2");
+
+    var person = {
+      name: "Yoon",
+      age : 35,
+      [height]: 156 // 심볼넣는 방법 1
+    }
+    
+    person[weight] = 52; // 심볼넣는 방법 2
+
+    console.log(person);
+
+
+
+    /********************* Symbol 출력하기 ********************/ 
+
+    // 반복문에서 Symbol로 만든 것은 출력이 안 된다
+    // 반복문에 Symbol이 출력되지 않는 이유 : enumerable하지 않기 때문이다.
+    for(var key in person) {
+      console.log(person[key]); 
+    }
+
+    // Symbol 출력하기
+    console.log(person[weight]); // 52
+    console.log(person[height]); // 156
+
+
+
+
+    /******************************************** Symbol의 특징 1 ********************************************/ 
+
+    /* 특징 1 - 설명이 같다고 같은 Symbol이 아니다. */
+
+    var a = Symbol("설명1");
+    var b = Symbol("설명1");
+
+    console.log(a == b); // false
+
+
+
+    /******************************************** Symbol의 특징 2 ********************************************/ 
+
+    /* 
+    특징 2 -  전역변수 같은 전역 Symbol 
+    Symbol.for()로 전역 심볼을 만든다.
+
+    전역심볼을 만드는 이유 - 같은 설명을 가지고 있는 심볼이 위에 있으면 기존 심볼을 복붙해 준다.
+    */
+
+    var c = Symbol.for("설명1");
+    var d = Symbol.for("설명1"); // 전역심볼인데 c와 d의 설명이 같기 때문에 c = d 이렇게 만들어버린다.
+
+    console.log(c == d); // true
+    console.log(c === d); // true
+
+
+
+    /******************************************** Symbol의 특징 3 ********************************************/ 
+
+    /* 
+    특징 3 -  기본 내장 Symbol들이 있다.
+
+    Array에 내장되어 있는 기본 Symbol이 있다.
+
+    */
+
+    var 어레이 = [2, 3, 4, 5];
+
+    console.log( 어레이[Symbol.iterator]() );
+    console.log( "아무글자"[Symbol.iterator]() );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  </script>
+</body>
+</html>
+
+
